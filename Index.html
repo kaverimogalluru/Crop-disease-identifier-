@@ -41,7 +41,7 @@
 <body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
 
     <!-- Header Navigation -->
-    <header class="sticky top-0 z-50 bg-slate-900 text-white shadow-md">
+    <header class="sticky top-0 z-40 bg-slate-900 text-white shadow-md">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <!-- Logo -->
             <div onclick="switchTab('home')" class="flex items-center gap-2 cursor-pointer">
@@ -53,7 +53,6 @@
 
             <!-- Navigation Items & Language Switcher -->
             <div class="flex items-center gap-3 sm:gap-6 text-xs sm:text-sm font-medium">
-                <!-- Language Selector -->
                 <select id="lang-select" onchange="changeLanguage(this.value)" class="bg-slate-800 text-slate-200 border border-slate-700 rounded-lg px-2 py-1 text-xs focus:outline-none">
                     <option value="en">🌐 English</option>
                     <option value="te">తెలుగు</option>
@@ -71,7 +70,7 @@
                     <span id="nav-history">History</span>
                 </button>
 
-                <button onclick="switchTab('scan')" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 transition">
+                <button onclick="startNewScan()" class="bg-brand-600 hover:bg-brand-700 text-white font-semibold px-3 py-1.5 rounded-lg text-xs flex items-center gap-1.5 transition">
                     <i class="fa-solid fa-qrcode"></i>
                     <span id="nav-scan">Scan Now</span>
                 </button>
@@ -84,7 +83,6 @@
 
         <!-- VIEW 1: HOME PAGE -->
         <section id="view-home" class="block">
-            <!-- Hero -->
             <div class="hero-bg py-20 px-4 text-center text-white">
                 <div class="max-w-4xl mx-auto">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800/80 border border-slate-700 text-brand-400 text-xs font-semibold mb-6">
@@ -96,7 +94,7 @@
                     </h1>
 
                     <div class="mt-8 flex flex-wrap justify-center gap-4">
-                        <button onclick="switchTab('scan')" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 transition">
+                        <button onclick="startNewScan()" class="bg-brand-600 hover:bg-brand-700 text-white font-bold px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 transition">
                             <i class="fa-solid fa-camera"></i>
                             <span id="hero-cta-scan">Scan Your Crop</span>
                         </button>
@@ -108,7 +106,6 @@
                 </div>
             </div>
 
-            <!-- How CropGuard Works -->
             <div class="max-w-6xl mx-auto px-4 py-16">
                 <h2 id="how-title" class="text-2xl font-bold text-center text-slate-900 mb-10">How CropGuard Works</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -137,7 +134,6 @@
                     </div>
                 </div>
 
-                <!-- Stats Grid -->
                 <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div class="bg-slate-100 p-4 rounded-xl text-center">
                         <div class="text-2xl font-black text-brand-600">52</div>
@@ -148,7 +144,7 @@
                         <div class="text-xs font-semibold text-slate-600 mt-1">Crops Supported</div>
                     </div>
                     <div class="bg-slate-100 p-4 rounded-xl text-center">
-                        <div class="text-2xl font-black text-brand-600" id="total-scans-count">10</div>
+                        <div class="text-2xl font-black text-brand-600" id="total-scans-count">3</div>
                         <div class="text-xs font-semibold text-slate-600 mt-1">Total Scans</div>
                     </div>
                     <div class="bg-slate-100 p-4 rounded-xl text-center">
@@ -157,12 +153,9 @@
                     </div>
                 </div>
 
-                <!-- Supported Crops Grid -->
                 <div class="mt-16">
                     <h2 id="supported-title" class="text-2xl font-bold text-center text-slate-900 mb-6">Supported Crops</h2>
-                    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3" id="crops-grid">
-                        <!-- Populated dynamically -->
-                    </div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3" id="crops-grid"></div>
                 </div>
             </div>
         </section>
@@ -175,24 +168,18 @@
                 <p class="text-xs text-slate-500 mt-1">Browse 52 disease classes across 13 crop types</p>
             </div>
 
-            <!-- Search & Crop Filter Buttons -->
             <div class="mb-6 space-y-4">
                 <div class="relative max-w-md">
                     <i class="fa-solid fa-search absolute left-3 top-3 text-slate-400 text-sm"></i>
                     <input type="text" id="db-search" oninput="filterDatabase()" placeholder="Search diseases..." class="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-brand-500">
                 </div>
 
-                <!-- Filter Chips -->
                 <div class="flex flex-wrap gap-2" id="filter-chips">
                     <button onclick="setCropFilter('All')" class="filter-btn active px-3 py-1.5 rounded-lg text-xs font-medium border bg-brand-600 text-white border-brand-600">All</button>
-                    <!-- Populated by JS -->
                 </div>
             </div>
 
-            <!-- Disease Cards Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="disease-cards-container">
-                <!-- Cards render here -->
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="disease-cards-container"></div>
         </section>
 
 
@@ -201,41 +188,41 @@
             <div class="flex justify-between items-center mb-6">
                 <div>
                     <h1 class="text-2xl font-bold text-slate-900">Scan History</h1>
-                    <p class="text-xs text-slate-500 mt-1">View your previous crop leaf diagnostic scans</p>
+                    <p class="text-xs text-slate-500 mt-1">Click on any previous scan to view detailed diagnostic recommendations & tips</p>
                 </div>
-                <button onclick="switchTab('scan')" class="bg-brand-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5">
+                <button onclick="startNewScan()" class="bg-brand-600 hover:bg-brand-700 transition text-white px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 shadow-md cursor-pointer">
                     <i class="fa-solid fa-plus"></i> New Scan
                 </button>
             </div>
 
-            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" id="history-list">
-                <!-- Render history rows here -->
-            </div>
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden" id="history-list"></div>
         </section>
 
 
-        <!-- VIEW 4: SCAN CROP LEAF MODAL / VIEW -->
+        <!-- VIEW 4: SCAN CROP LEAF -->
         <section id="view-scan" class="hidden max-w-3xl mx-auto px-4 py-8">
             <div class="bg-white rounded-2xl border border-slate-200 shadow-lg p-6">
-                <div class="mb-6">
-                    <h1 class="text-2xl font-bold text-slate-900">Scan Crop Leaf</h1>
-                    <p class="text-xs text-slate-500 mt-1">Upload a photo of your crop leaf to identify diseases using our AI model.</p>
+                <div class="mb-6 flex justify-between items-center">
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-900">Scan Crop Leaf</h1>
+                        <p class="text-xs text-slate-500 mt-1">Upload a photo of your crop leaf to identify diseases using AI.</p>
+                    </div>
                 </div>
 
                 <!-- Tabs: Upload, Camera, Gallery -->
                 <div class="grid grid-cols-3 gap-2 p-1 bg-slate-100 rounded-xl mb-6 text-xs font-semibold">
                     <button onclick="setScanMode('upload')" id="tab-upload" class="py-2 rounded-lg bg-brand-600 text-white text-center shadow-sm flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-upload"></i> Upload
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload
                     </button>
-                    <button onclick="setScanMode('camera')" id="tab-camera" class="py-2 rounded-lg text-slate-600 text-center flex items-center justify-center gap-2">
+                    <button onclick="setScanMode('camera')" id="tab-camera" class="py-2 rounded-lg text-slate-600 text-center flex items-center justify-center gap-2 hover:bg-slate-200">
                         <i class="fa-solid fa-camera"></i> Camera
                     </button>
-                    <button onclick="setScanMode('gallery')" id="tab-gallery" class="py-2 rounded-lg text-slate-600 text-center flex items-center justify-center gap-2">
+                    <button onclick="setScanMode('gallery')" id="tab-gallery" class="py-2 rounded-lg text-slate-600 text-center flex items-center justify-center gap-2 hover:bg-slate-200">
                         <i class="fa-solid fa-images"></i> Gallery
                     </button>
                 </div>
 
-                <!-- Crop Selection Selector for Validation -->
+                <!-- Crop Selection -->
                 <div class="mb-4">
                     <label class="block text-xs font-bold text-slate-700 mb-1">Select Crop Type for Validation:</label>
                     <select id="scan-crop-select" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-brand-500">
@@ -257,14 +244,17 @@
                 </div>
 
                 <!-- Dropzone Box -->
-                <div id="scan-dropzone" class="border-2 border-dashed border-slate-300 rounded-2xl p-8 text-center bg-slate-50/50 hover:bg-slate-50 transition cursor-pointer" onclick="triggerFileInput()">
+                <div id="scan-dropzone" class="border-2 border-dashed border-slate-300 rounded-2xl p-8 text-center bg-slate-50 hover:bg-slate-100 transition cursor-pointer" onclick="triggerFileInput()">
                     <input type="file" id="scan-file-input" accept="image/*" class="hidden" onchange="handleFileSelect(event)">
                     
                     <div id="dropzone-prompt" class="space-y-3">
-                        <div class="w-12 h-12 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center mx-auto text-xl">
-                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                        <div class="w-14 h-14 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-inner">
+                            <i class="fa-solid fa-circle-arrow-down animate-bounce"></i>
                         </div>
-                        <p class="text-xs font-bold text-slate-700">Drop image here or click to upload</p>
+                        <p class="text-xs font-bold text-slate-700">Click or Drag & Drop leaf image here to upload</p>
+                        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-200/70 text-slate-600 text-[11px] font-semibold">
+                            <i class="fa-solid fa-arrow-up-from-bracket"></i> Select File
+                        </div>
                         <p class="text-[11px] text-slate-400">Supports JPG, PNG up to 10MB</p>
                     </div>
 
@@ -274,7 +264,7 @@
                     </div>
                 </div>
 
-                <!-- Sample Leaf Presets -->
+                <!-- Sample Presets -->
                 <div class="mt-4">
                     <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-2">Or click sample leaf presets:</p>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -293,13 +283,13 @@
                         <button onclick="presetScan('Corn (Maize)', 'Gray Leaf Spot')" class="p-2 bg-slate-100 hover:bg-slate-200 rounded-xl text-left text-xs font-medium text-slate-700">
                             🌽 Corn - Gray Spot
                         </button>
-                        <button onclick="presetScan('Unknown', 'Rose Plant Black Spot')" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl text-left text-xs font-medium">
-                            🌹 Rose Leaf (Not Supported)
+                        <button onclick="presetScan('Unknown', 'Unrecognized Plant Leaf')" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl text-left text-xs font-medium">
+                            🌹 Unsupported Leaf (Test Unrecognized)
                         </button>
                     </div>
                 </div>
 
-                <!-- Action Button -->
+                <!-- Run AI Scan Button -->
                 <div class="mt-6">
                     <button onclick="runDiagnosis()" id="run-scan-btn" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-bold py-3 rounded-xl shadow-md transition flex items-center justify-center gap-2">
                         <i class="fa-solid fa-microscope"></i>
@@ -308,13 +298,21 @@
                 </div>
 
                 <!-- Result Display Area -->
-                <div id="scan-result-card" class="hidden mt-6 p-5 rounded-2xl border">
-                    <!-- Dynamic validation result output -->
-                </div>
+                <div id="scan-result-card" class="hidden mt-6 p-5 rounded-2xl border"></div>
             </div>
         </section>
 
     </main>
+
+    <!-- DETAIL MODAL FOR HISTORY & SCAN RESULTS -->
+    <div id="detail-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl border border-slate-100 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-lg p-1">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modal-content"></div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-slate-900 text-slate-400 py-6 border-t border-slate-800 text-xs">
@@ -330,353 +328,5 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // Supported 13 crops list
-        const supportedCrops = ["Apple", "Banana", "Barley", "Bell Pepper", "Citrus", "Corn (Maize)", "Cotton", "Grape", "Potato", "Rice", "Soybean", "Tomato", "Wheat"];
-
-        // Initial 52 Disease Database entries
-        const diseaseDatabase = [
-            { crop: "Apple", name: "Apple Scab", severity: "high severity", color: "bg-red-100 text-red-700", desc: "Caused by Venturia inaequalis. Olive-green to black spots on leaves and fruit." },
-            { crop: "Apple", name: "Apple Rust", severity: "medium severity", color: "bg-amber-100 text-amber-700", desc: "Caused by Gymnosporangium. Orange-yellow spots on upper leaf surfaces." },
-            { crop: "Apple", name: "Black Rot", severity: "high severity", color: "bg-red-100 text-red-700", desc: "Causes leaf spots ('frog-eye'), fruit rot, and limb cankers." },
-            { crop: "Banana", name: "Banana Bunchy Top", severity: "critical severity", color: "bg-red-200 text-red-800", desc: "Stunted leaves forming a rosette bunch at the top." },
-            { crop: "Banana", name: "Panama Disease (TR4)", severity: "critical severity", color: "bg-red-200 text-red-800", desc: "Fungal wilt attacking plant vascular system." },
-            { crop: "Banana", name: "Black Sigatoka", severity: "high severity", color: "bg-red-100 text-red-700", desc: "Dark streaks on leaves reducing photosynthetic yield." },
-            { crop: "Barley", name: "Barley Healthy", severity: "healthy", color: "bg-emerald-100 text-emerald-700", desc: "Vibrant green foliage with no symptoms of disease." },
-            { crop: "Barley", name: "Net Blotch", severity: "medium severity", color: "bg-amber-100 text-amber-700", desc: "Net-like brown linear patterns on leaves." },
-            { crop: "Bell Pepper", name: "Bacterial Spot", severity: "high severity", color: "bg-red-100 text-red-700", desc: "Small water-soaked lesions turning dark brown." },
-            { crop: "Bell Pepper", name: "Bell Pepper Healthy", severity: "healthy", color: "bg-emerald-100 text-emerald-700", desc: "Normal lush green foliage." },
-            { crop: "Citrus", name: "Citrus Canker", severity: "high severity", color: "bg-red-100 text-red-700", desc: "Raised corky lesions surrounded by yellow halos." },
-            { crop: "Citrus", name: "Citrus Greening (HLB)", severity: "critical severity", color: "bg-red-200 text-red-800", desc: "Asymmetrical leaf mottling and bitter yellow fruit." },
-            { crop: "Corn (Maize)", name: "Common Rust", severity: "medium severity", color: "bg-amber-100 text-amber-700", desc: "Cinnamon brown pustules scattered over leaves." },
-            { crop: "Corn (Maize)", name: "Gray Leaf Spot", severity: "high severity", color: "bg-red-100 text-red-700", desc: "Rectangular tan lesions running parallel to veins." },
-            { crop: "Corn (Maize)", name: "Northern Leaf Blight", severity: "high severity", color: "bg-red-100 text-red-700", desc: "Long elliptical grayish-green lesions." },
-            { crop: "Cotton", name: "Bacterial Blight", severity: "high severity", color: "bg-red-100 text-red-700", desc: "Angular water-soaked leaf spots." },
-            { crop: "Grape", name: "Black Rot", severity: "high severity", color: "bg-red-100 text-red-700", desc: "Brown circular leaf lesions with black pycnidia dots." },
-            { crop: "Potato", name: "Early Blight", severity: "medium severity", color: "bg-amber-100 text-amber-700", desc: "Concentric target-like rings on older leaves." },
-            { crop: "Potato", name: "Late Blight", severity: "critical severity", color: "bg-red-200 text-red-800", desc: "Water-soaked dark lesions spreading rapidly in moist weather." },
-            { crop: "Rice", name: "Rice Blast", severity: "critical severity", color: "bg-red-200 text-red-800", desc: "Spindle-shaped lesions with grayish centers." },
-            { crop: "Soybean", name: "Sudden Death Syndrome", severity: "high severity", color: "bg-red-100 text-red-700", desc: "Interveinal chlorosis and root necrosis." },
-            { crop: "Tomato", name: "Early Blight", severity: "high severity", color: "bg-red-100 text-red-700", desc: "Dark brown concentric rings on lower leaves." },
-            { crop: "Tomato", name: "Yellow Leaf Curl Virus", severity: "critical severity", color: "bg-red-200 text-red-800", desc: "Upward leaf curling, chlorosis, and severe stunting." },
-            { crop: "Wheat", name: "Powdery Mildew", severity: "medium severity", color: "bg-amber-100 text-amber-700", desc: "White powdery fungal patches on upper leaf surfaces." }
-        ];
-
-        // Scan History Database State
-        let scanHistory = [
-            { disease: "Yellow Leaf Curl Virus", crop: "Tomato", confidence: "95% Confidence", severity: "critical", date: "Aug 12, 2026, 05:12 PM" },
-            { disease: "Yellow Leaf Curl Virus", crop: "Tomato", confidence: "95% Confidence", severity: "critical", date: "Aug 12, 2026, 05:10 PM" },
-            { disease: "Early Blight", crop: "Tomato", confidence: "92% Confidence", severity: "critical", date: "Aug 12, 2026, 05:08 PM" }
-        ];
-
-        let activeCropFilter = "All";
-
-        // Initialize App
-        window.addEventListener('DOMContentLoaded', () => {
-            renderSupportedCrops();
-            renderFilterChips();
-            renderDatabaseCards();
-            renderHistory();
-        });
-
-        // Tab Switcher
-        function switchTab(tab) {
-            document.getElementById('view-home').classList.add('hidden');
-            document.getElementById('view-database').classList.add('hidden');
-            document.getElementById('view-history').classList.add('hidden');
-            document.getElementById('view-scan').classList.add('hidden');
-
-            if(tab === 'home') document.getElementById('view-home').classList.remove('hidden');
-            if(tab === 'database') document.getElementById('view-database').classList.remove('hidden');
-            if(tab === 'history') { renderHistory(); document.getElementById('view-history').classList.remove('hidden'); }
-            if(tab === 'scan') document.getElementById('view-scan').classList.remove('hidden');
-
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        // Render Supported Crops Buttons
-        function renderSupportedCrops() {
-            const container = document.getElementById('crops-grid');
-            container.innerHTML = supportedCrops.map(crop => `
-                <div onclick="filterByCrop('${crop}')" class="p-3 bg-white border border-slate-200 rounded-xl flex items-center justify-between text-xs font-semibold text-slate-700 hover:border-brand-500 hover:shadow-sm cursor-pointer transition">
-                    <span>${crop}</span>
-                    <i class="fa-solid fa-circle-check text-brand-600 text-[10px]"></i>
-                </div>
-            `).join('');
-        }
-
-        // Render Filter Chips in DB
-        function renderFilterChips() {
-            const container = document.getElementById('filter-chips');
-            const chips = ["All", ...supportedCrops];
-            container.innerHTML = chips.map(crop => `
-                <button onclick="setCropFilter('${crop}')" class="filter-btn px-3 py-1.5 rounded-lg text-xs font-medium border ${activeCropFilter === crop ? 'bg-brand-600 text-white border-brand-600' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-100'}">
-                    ${crop}
-                </button>
-            `).join('');
-        }
-
-        function filterByCrop(crop) {
-            switchTab('database');
-            setCropFilter(crop);
-        }
-
-        function setCropFilter(crop) {
-            activeCropFilter = crop;
-            renderFilterChips();
-            renderDatabaseCards();
-        }
-
-        function filterDatabase() {
-            renderDatabaseCards();
-        }
-
-        // Render Cards in Database
-        function renderDatabaseCards() {
-            const query = document.getElementById('db-search').value.toLowerCase();
-            const container = document.getElementById('disease-cards-container');
-
-            const filtered = diseaseDatabase.filter(item => {
-                const matchesCrop = activeCropFilter === "All" || item.crop === activeCropFilter;
-                const matchesSearch = item.name.toLowerCase().includes(query) || item.crop.toLowerCase().includes(query);
-                return matchesCrop && matchesSearch;
-            });
-
-            if (filtered.length === 0) {
-                container.innerHTML = `<p class="col-span-full text-center text-xs text-slate-400 py-8">No diseases found matching criteria.</p>`;
-                return;
-            }
-
-            container.innerHTML = filtered.map(item => `
-                <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between gap-2 mb-2">
-                            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${item.color} uppercase">${item.severity}</span>
-                            <span class="text-[11px] font-semibold text-slate-400">${item.crop}</span>
-                        </div>
-                        <h3 class="font-bold text-slate-900 text-sm mb-1">${item.name}</h3>
-                        <p class="text-xs text-slate-500 leading-relaxed">${item.desc}</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Render Scan History
-        function renderHistory() {
-            const container = document.getElementById('history-list');
-            document.getElementById('total-scans-count').textContent = scanHistory.length;
-
-            if (scanHistory.length === 0) {
-                container.innerHTML = `<p class="p-6 text-center text-xs text-slate-400">No scan history available yet.</p>`;
-                return;
-            }
-
-            container.innerHTML = scanHistory.map(item => `
-                <div class="p-4 border-b border-slate-100 flex items-center justify-between gap-4 hover:bg-slate-50 transition">
-                    <div class="flex items-center gap-3">
-                        <div class="w-9 h-9 bg-brand-100 text-brand-600 rounded-xl flex items-center justify-center font-bold text-sm">
-                            <i class="fa-solid fa-leaf"></i>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-slate-900 text-sm">${item.disease}</h4>
-                            <p class="text-[11px] text-slate-400 font-medium">${item.crop} • <span class="text-brand-600 font-bold">${item.confidence}</span></p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <span class="inline-block text-[10px] font-bold px-2 py-0.5 rounded-full ${item.severity === 'unrecognized' ? 'bg-slate-200 text-slate-700' : 'bg-red-100 text-red-700'} uppercase mb-1">
-                            ${item.severity}
-                        </span>
-                        <div class="text-[10px] text-slate-400">${item.date}</div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Scan Modes
-        function setScanMode(mode) {
-            ['upload', 'camera', 'gallery'].forEach(m => {
-                const btn = document.getElementById(`tab-${m}`);
-                if(m === mode) {
-                    btn.className = "py-2 rounded-lg bg-brand-600 text-white text-center shadow-sm flex items-center justify-center gap-2";
-                } else {
-                    btn.className = "py-2 rounded-lg text-slate-600 text-center flex items-center justify-center gap-2";
-                }
-            });
-        }
-
-        function triggerFileInput() {
-            document.getElementById('scan-file-input').click();
-        }
-
-        function handleFileSelect(e) {
-            const file = e.target.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = (evt) => {
-                    document.getElementById('preview-img').src = evt.target.result;
-                    document.getElementById('preview-filename').textContent = file.name;
-                    document.getElementById('dropzone-prompt').classList.add('hidden');
-                    document.getElementById('dropzone-preview').classList.remove('hidden');
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function presetScan(crop, disease) {
-            document.getElementById('scan-crop-select').value = crop;
-            document.getElementById('preview-filename').textContent = `Preset: ${crop} - ${disease}`;
-            document.getElementById('dropzone-prompt').classList.add('hidden');
-            document.getElementById('dropzone-preview').classList.remove('hidden');
-            document.getElementById('preview-img').src = "https://images.unsplash.com/photo-1592417817098-8f3d6eb231fc?auto=format&fit=crop&w=400&q=80";
-        }
-
-        // VALIDATION & SCAN EXECUTION LOGIC
-        function runDiagnosis() {
-            const selectedCrop = document.getElementById('scan-crop-select').value;
-            const resultBox = document.getElementById('scan-result-card');
-            
-            resultBox.classList.remove('hidden');
-            resultBox.innerHTML = `
-                <div class="text-center py-4">
-                    <div class="inline-block w-6 h-6 border-2 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
-                    <p class="text-xs text-slate-500 mt-2">Checking crop identity against 13-crop database...</p>
-                </div>
-            `;
-
-            setTimeout(() => {
-                // Check if crop belongs to supported list
-                const isSupported = supportedCrops.includes(selectedCrop);
-
-                if (!isSupported) {
-                    // UNRECOGNIZED / NOT IN DATABASE CASE
-                    resultBox.className = "mt-6 p-5 rounded-2xl border border-amber-200 bg-amber-50";
-                    resultBox.innerHTML = `
-                        <div class="flex items-start gap-3">
-                            <i class="fa-solid fa-triangle-exclamation text-amber-600 text-xl mt-0.5"></i>
-                            <div>
-                                <h3 class="font-bold text-amber-900 text-sm">Crop / Plant Not in Database</h3>
-                                <p class="text-xs text-amber-800 mt-1 leading-relaxed">
-                                    The scanned plant does not match any of our 13 supported crops (Apple, Banana, Barley, Bell Pepper, Citrus, Corn, Cotton, Grape, Potato, Rice, Soybean, Tomato, Wheat).
-                                </p>
-                                <p class="text-[11px] text-amber-700 font-semibold mt-2">Please upload a leaf from one of our supported crop types.</p>
-                            </div>
-                        </div>
-                    `;
-
-                    // Add failed entry to history
-                    scanHistory.unshift({
-                        disease: "Unrecognized Plant Species",
-                        crop: selectedCrop,
-                        confidence: "0% Match",
-                        severity: "unrecognized",
-                        date: new Date().toLocaleString()
-                    });
-                } else {
-                    // MATCHED IN DATABASE CASE
-                    const matchingDiseases = diseaseDatabase.filter(d => d.crop === selectedCrop);
-                    const selectedDisease = matchingDiseases.length > 0 ? matchingDiseases[0] : { name: `${selectedCrop} Blight`, severity: "high severity" };
-                    const randomConfidence = Math.floor(Math.random() * 8) + 92; // 92% - 99%
-
-                    resultBox.className = "mt-6 p-5 rounded-2xl border border-brand-200 bg-brand-50/50";
-                    resultBox.innerHTML = `
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-red-100 text-red-700 uppercase">
-                                    ${selectedDisease.severity}
-                                </span>
-                                <h3 class="font-extrabold text-slate-900 text-lg mt-1">${selectedDisease.name}</h3>
-                                <p class="text-xs text-slate-500 font-semibold">Crop: ${selectedCrop}</p>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-2xl font-black text-brand-600">${randomConfidence}%</div>
-                                <div class="text-[10px] font-bold text-slate-400 uppercase">AI Confidence</div>
-                            </div>
-                        </div>
-                        <div class="mt-4 pt-3 border-t border-slate-200/60 text-xs text-slate-600 space-y-1">
-                            <p><strong>Status:</strong> Verified against CropGuard Database.</p>
-                            <p><strong>Recommended Action:</strong> Apply target fungicide/pesticide and prune affected leaves immediately.</p>
-                        </div>
-                    `;
-
-                    // Push successful entry to Scan History
-                    scanHistory.unshift({
-                        disease: selectedDisease.name,
-                        crop: selectedCrop,
-                        confidence: `${randomConfidence}% Confidence`,
-                        severity: "critical",
-                        date: new Date().toLocaleString()
-                    });
-                }
-
-                renderHistory();
-            }, 1200);
-        }
-
-        // Dynamic Multi-Language Text Switcher
-        const translations = {
-            en: {
-                db: "Diseases", history: "History", scan: "Scan Now",
-                badge: "AI Powered Crop Disease Detection",
-                title: "Identify Crop Diseases Instantly with AI",
-                ctaScan: "Scan Your Crop", ctaBrowse: "Browse Diseases",
-                how: "How CropGuard Works",
-                s1Title: "Upload or Capture", s1Desc: "Take a photo of your crop leaf using your camera or upload an existing leaf image from gallery.",
-                s2Title: "AI Analysis", s2Desc: "Our CNN deep-learning model analyzes the leaf image against disease classes across multiple crop types.",
-                s3Title: "Get Results", s3Desc: "Receive instant disease identification with confidence scores, description, treatment, and prevention tips.",
-                supported: "Supported Crops"
-            },
-            te: {
-                db: "వ్యాధులు", history: "చరిత్ర", scan: "స్క్యాన్ చేయండి",
-                badge: "AI తో పంట వ్యాధుల గుర్తింపు",
-                title: "పంట వ్యాధులను గుర్తించండి AI తో తక్షణమే",
-                ctaScan: "పంటను స్క్యాన్ చేయండి", ctaBrowse: "వ్యాధులను చూడండి",
-                how: "క్రాప్‌గార్డ్ ఎలా పనిచేస్తుంది",
-                s1Title: "అప్‌లోడ్ లేదా క్యాప్చర్", s1Desc: "మీ కెమెరాను ఉపయోగించి మీ పంట ఆకు ఫోటో తీయండి లేదా గ్యాలరీ నుండి అప్‌లోడ్ చేయండి.",
-                s2Title: "AI విశ్లేషణ", s2Desc: "మా AI మోడల్ ఆకు చిత్రాన్ని విశ్లేషించి వ్యాధిని గుర్తిస్తుంది.",
-                s3Title: "ఫలితాలు పొందండి", s3Desc: "నమ్మకమైన స్కోరు మరియు చికిత్స వివరాలతో తక్షణ ఫలితాలను పొందండి.",
-                supported: "మద్దతు గల పంటలు"
-            },
-            hi: {
-                db: "बीमारियां", history: "इतिहास", scan: "स्कैन करें",
-                badge: "एआई द्वारा फसल रोग पहचान",
-                title: "एआई के साथ फसल रोगों को तुरंत पहचानें",
-                ctaScan: "अपनी फसल स्कैन करें", ctaBrowse: "बीमारियां देखें",
-                how: "क्रॉपगार्ड कैसे काम करता है",
-                s1Title: "अपलोड या कैप्चर", s1Desc: "अपने कैमरे का उपयोग करके अपनी फसल की पत्ती का फोटो लें या गैलरी से अपलोड करें।",
-                s2Title: "एआई विश्लेषण", s2Desc: "हमारा एआई मॉडल रोग की पहचान करने के लिए पत्ती की छवि का विश्लेषण करता है।",
-                s3Title: "परिणाम प्राप्त करें", s3Desc: "सटीक स्कोर और उपचार युक्तियों के साथ तुरंत परिणाम प्राप्त करें।",
-                supported: "समर्थित फसलें"
-            },
-            ta: {
-                db: "நோய்கள்", history: "வரலாறு", scan: "ஸ்கேன் செய்",
-                badge: "AI பயிர் நோய் கண்டறிதல்",
-                title: "AI மூலம் பயிர் நோய்களை உடனடியாக கண்டறியவும்",
-                ctaScan: "பயிரை ஸ்கேன் செய்", ctaBrowse: "நோய்களைப் பார்",
-                how: "க்ராப்கார்ட் எவ்வாறு செயல்படுகிறது",
-                s1Title: "பதிவேற்று அல்லது படம் எடு", s1Desc: "கேமராவைப் பயன்படுத்தி இலையின் படத்தை எடுக்கவும் அல்லது கேலரியில் இருந்து பதிவேற்றவும்.",
-                s2Title: "AI பகுப்பாய்வு", s2Desc: "எங்கள் AI மாதிரி இலையின் படத்தை ஆராய்ந்து நோயைக் கண்டறியும்.",
-                s3Title: "முடிவுகளைப் பெறுங்கள்", s3Desc: "உடனடி நோய் கண்டறிதல் மற்றும் சிகிச்சை குறிப்புகளைப் பெறுங்கள்.",
-                supported: "ஆதரிக்கப்படும் பயிர்கள்"
-            }
-        };
-
-        function changeLanguage(lang) {
-            const t = translations[lang] || translations.en;
-            document.getElementById('nav-db').textContent = t.db;
-            document.getElementById('nav-history').textContent = t.history;
-            document.getElementById('nav-scan').textContent = t.scan;
-            document.getElementById('hero-badge').textContent = t.badge;
-            document.getElementById('hero-title').innerHTML = t.title.replace('AI', '<span class="text-brand-500">AI</span>');
-            document.getElementById('hero-cta-scan').textContent = t.ctaScan;
-            document.getElementById('hero-cta-browse').textContent = t.ctaBrowse;
-            document.getElementById('how-title').textContent = t.how;
-            document.getElementById('step1-title').textContent = t.s1Title;
-            document.getElementById('step1-desc').textContent = t.s1Desc;
-            document.getElementById('step2-title').textContent = t.s2Title;
-            document.getElementById('step2-desc').textContent = t.s2Desc;
-            document.getElementById('step3-title').textContent = t.s3Title;
-            document.getElementById('step3-desc').textContent = t.s3Desc;
-            document.getElementById('supported-title').textContent = t.supported;
-        }
-    </script>
-</body>
-</html>
+        const supportedCrops = ["Apple", "Banana", "Barley", "Bell Pepper", "Citrus", "Corn
+                    
